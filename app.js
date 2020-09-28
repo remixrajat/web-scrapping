@@ -1,5 +1,4 @@
 const express = require("express");
-const sequelize = require("sequelize");
 const bodyParser = require("body-parser");
 const request = require("request");
 const cheerio = require("cheerio");
@@ -12,13 +11,12 @@ request(
   function (error, response, html) {
     if (!error && response.statusCode == 200) {
       var $ = cheerio.load(html);
-      // var parsedResults = [];
       $("div._3wU53n").each(function (i, element) {
-        var a = $(this);
-        var title = a.text();
-        var rating = a.next().text();
-        var specs = a.next().next().text();
-        var data = {
+        let details = $(this);
+        let title = details.text();
+        let rating = details.next().text();
+        let specs = details.next().next().text();
+        let data = {
           title: title,
           rating: rating,
           specs: specs,
@@ -36,5 +34,5 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.listen(3000, () => {
-  console.log("server started");
+  console.log("server started at localhost 3000");
 });
